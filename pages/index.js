@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
+
+import Page from "../components/shared/Page";
+
 import WelcomeScreen from "../components/screens/WelcomeScreen";
 
-const APP_STATE = Object.freeze({
-    WELCOME: 0,
-    SESSION: 1,
-    COMPLETED: 2,
-});
+const PHOTO_QUERY = 'meditation';
 
 function IndexPage(props) {
-    const [app_state, set_app_state] = useState(APP_STATE.WELCOME);
 
-    const next_state = () => {
-        const new_state = (app_state + 1) % APP_STATE.length;
+    return (
+        <Page photos={props.photos}>
+            <WelcomeScreen/>
+        </Page>
+    )
+}
 
-        set_app_state(new_state);
-    };
+// Fetch Unsplash background photos for menu
+export async function getStaticProps() {
+    const API_ROUTE = `https://api.unsplash.com/search/photos?client_id=${process.env.UNSPLASH_ACCESS_KEY}&query=${PHOTO_QUERY}&orientation=landscape`;
 
-    return <WelcomeScreen start_session={() => {}} />;
+    const response = await fetch(API_ROUTE);
+    const data = await response.json();
+
+    const photos = data["results"];
+
+    console.log(photos)
+
+    return { props: { photos } };
 }
 
 export default IndexPage;

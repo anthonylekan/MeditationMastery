@@ -12,9 +12,9 @@ function WelcomeScreen(props) {
     };
 
     return (
-        <Page>
+        <React.Fragment>
 
-        </Page>
+        </React.Fragment>
     )
 }
 

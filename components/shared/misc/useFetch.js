@@ -5,9 +5,11 @@ const useFetch = (url, options) => {
 
     useEffect(async () => {
         const res = await fetch(url, options);
-        const json = await res.json();
-        setResponse(json);
+        const data = await res.json();
+        setState({ data, loading: false });
     }, [url]);
 
     return state;
 };
+
+export default useFetch;

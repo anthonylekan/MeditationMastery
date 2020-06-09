@@ -1,14 +1,9 @@
 import React from 'react';
 
-// const Background = styled.div`
-//     background: ${props => props.color || 'white'};
-//     width: 100vw;
-//     height: 100vh;
-//     position: fixed;
-//     z-position: -999;
-// `;
+import CrossfadeImage from 'react-crossfade-image';
 
 function Background(props) {
+
     return (
         <React.Fragment>
             <style jsx>{`
@@ -16,7 +11,13 @@ function Background(props) {
                 div {
                     width: 100%;
                     height: 100%;
-                    background: ${props.color || 'black'};
+                    position: fixed;
+                    background:  ${props.color || 'black'};
+                    background-image: ${props.img ? `url(${props.img})` : 'none' };
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+
                     z-index: -999;
                 }
 

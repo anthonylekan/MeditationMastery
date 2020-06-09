@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Background from './Background';
+import ZenBackground from './ZenBackground';
 
 function Page(props) {
     return (
         <React.Fragment>
-            <Background color={props.bg_color}/>
+            <ZenBackground photos={props.photos} />
+
             <main style={{padding: 25}}>
                 { props.children }
             </main>
