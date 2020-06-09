@@ -2,6 +2,9 @@ import React from 'react';
 
 const ONE_SECOND_MS = 1000;
 
+/*
+ * TODO: Implement Sweeping down, scaling transition from top right and exit transition top left, minimizing
+ */
 class CountdownText extends React.Component {
 
     constructor(props) {
@@ -26,7 +29,7 @@ class CountdownText extends React.Component {
         }, ONE_SECOND_MS);
     }
 
-    componentWillUnmount() {
+    componentWillUnMount() {
         clearInterval(this.interval);
     }
 

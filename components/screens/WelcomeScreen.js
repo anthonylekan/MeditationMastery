@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Page from "../shared/Page";
 import CountdownText from "../shared/CountdownText";
 
 function WelcomeScreen(props) {
+    // session duration in minutes
+    const [session_duration, set_session_duration] = useState(30);
 
     const on_timer_end = () => {
         props.start_session();
@@ -11,8 +13,6 @@ function WelcomeScreen(props) {
 
     return (
         <Page>
-
-            <CountdownText duration={5} exit={on_timer_end} />
 
         </Page>
     )

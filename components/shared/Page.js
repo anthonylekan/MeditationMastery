@@ -1,10 +1,15 @@
 import React from 'react';
 
+import Background from './Background';
+
 function Page(props) {
     return (
-        <main style={{padding: 25}}>
-            { props.children }
-        </main>
+        <React.Fragment>
+            <Background color={props.bg_color}/>
+            <main style={{padding: 25}}>
+                { props.children }
+            </main>
+        </React.Fragment>
     )
 }
 

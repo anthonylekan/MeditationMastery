@@ -16,7 +16,7 @@ function IndexPage(props) {
         set_app_state(new_state);
     };
 
-    return <WelcomeScreen />;
+    return <WelcomeScreen start_session={() => {}} />;
 }
 
 export default IndexPage;
