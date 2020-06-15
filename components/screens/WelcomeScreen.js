@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Page from "../shared/Page";
 import CountdownText from "../shared/CountdownText";
+import InstructionText from "../shared/InstructionText";
 
 function WelcomeScreen(props) {
     // session duration in minutes
@@ -13,7 +14,7 @@ function WelcomeScreen(props) {
 
     return (
         <React.Fragment>
-
+            <InstructionText>Press Space to Start</InstructionText>
         </React.Fragment>
     )
 }

@@ -12,29 +12,26 @@ const TIMER_INTERVAL = 10000;
 function ZenBackground(props) {
     const [current_img, set_current_img] = useState(0);
 
-    useEffect(() => {
-        const photo_amount = props.photos.length;
-        let new_img_index = (current_img + 1) % photo_amount;
-
-        const new_img = new Image();
-        new_img.src = props.photos[new_img_index]["urls"]["full"];
-
-        const timer = setTimeout(() => {
-            set_current_img(new_img_index);
-        }, TIMER_INTERVAL);
-
-        return () => {
-            clearTimeout(timer);
-        }
-    }, [current_img]);
-
-    console.log(current_img);
-
     if(!props.photos) {
         return <Background color={props.color || BACKUP_COLOR}/>;
     } else {
+        useEffect(() => {
+            const photo_amount = props.photos.length;
+            let new_img_index = (current_img + 1) % photo_amount;
+
+            const new_img = new Image();
+            new_img.src = props.photos[new_img_index]["urls"]["full"];
+
+            const timer = setTimeout(() => {
+                set_current_img(new_img_index);
+            }, TIMER_INTERVAL);
+
+            return () => {
+                clearTimeout(timer);
+            }
+        }, [current_img]);
+
         const color = props.photos[current_img]["color"];
-        console.log(color);
         const source = props.photos[current_img]["urls"]["full"];
 
         return <Background img={source} color={color} />;

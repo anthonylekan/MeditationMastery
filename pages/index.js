@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 
 import Page from "../components/shared/Page";
 
@@ -7,6 +8,22 @@ import WelcomeScreen from "../components/screens/WelcomeScreen";
 const PHOTO_QUERY = 'meditation';
 
 function IndexPage(props) {
+    const router = useRouter();
+    const session_info = { duration_min: 5 };
+
+    function handleKeyPress(event) {
+        if(event.keyCode === 32) {
+            router.push(`/session?duration_min=${session_info.duration_min}`)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
 
     return (
         <Page photos={props.photos}>
@@ -24,7 +41,7 @@ export async function getStaticProps() {
 
     const photos = data["results"];
 
-    console.log(photos)
+    console.log(photos);
 
     return { props: { photos } };
 }

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import CrossfadeImage from 'react-crossfade-image';
-
 function Background(props) {
 
     return (
@@ -17,6 +15,9 @@ function Background(props) {
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: cover;
+
+                    # filter: blur(1px);
+                    # -webkit-filter: blur(1px);
 
                     z-index: -999;
                 }
