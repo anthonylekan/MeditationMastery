@@ -13,7 +13,11 @@ function InstructionText(props) {
                     font-family: 'Robot', Monospace;
                     color: white;
                     text-align: center;
-                    margin-top: 30%;
+                    margin: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                     text-shadow: 2px 2px #000;
                 }
 

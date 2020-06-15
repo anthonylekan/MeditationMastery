@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 
 import Page from "../components/shared/Page";
 
-import WelcomeScreen from "../components/screens/WelcomeScreen";
+import SettingsForm from "../components/shared/FloatingSettingsForm";
+import InstructionText from "../components/shared/InstructionText";
 
 const PHOTO_QUERY = 'meditation';
 
@@ -11,9 +12,22 @@ function IndexPage(props) {
     const router = useRouter();
     const session_info = { duration_min: 5 };
 
+    const [is_modal_open, set_is_modal_open] = useState(false);
+    const [set_settings, settings] = useState(session_info);
+
+    function handle_setting_change(property) {
+        return function(new_value) {
+            set_settings({ [property]: new_value, ...settings });
+        }
+    }
+
+    function toggle_modal() {
+        set_is_modal_open(!is_modal_open);
+    }
+
     function handleKeyPress(event) {
         if(event.keyCode === 32) {
-            router.push(`/session?duration_min=${session_info.duration_min}`)
+            router.push(`/session?duration_min=${session_info.duration_min}`);
         }
     }
 
@@ -27,7 +41,8 @@ function IndexPage(props) {
 
     return (
         <Page photos={props.photos}>
-            <WelcomeScreen/>
+            <InstructionText>Press Space to Start</InstructionText>
+            <SettingsForm />
         </Page>
     )
 }
