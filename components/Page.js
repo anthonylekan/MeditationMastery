@@ -6,7 +6,7 @@ function Page(props) {
     return (
         <React.Fragment>
             <title>{ props.title || "Sound Healing" }</title>
-            <ZenBackground photos={props.photos} />
+            <ZenBackground photos={props.photos} paused={props.paused} />
 
             <main style={{padding: 25}}>
                 { props.children }

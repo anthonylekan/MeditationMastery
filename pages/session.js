@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 
-import Page from '../components/shared/Page';
-import InstructionText from "../components/shared/InstructionText";
-import FloatingWidget from "../components/shared/FloatingWidget";
+import Page from '../components/Page';
+import InstructionText from "../components/InstructionText";
+import FloatingWidget from "../components/FloatingWidget";
 
 import LoadingBar from 'react-top-loading-bar';
 import store from "store";
 
 const PHOTO_QUERY = "meditation";
 
-const SESSION_STATE = {
-    STARTING: 'starting',
-    IN_SESSION: 'in_session',
-    OVER: 'over'
-};
 
 function SessionPage(props) {
     const router = useRouter();
-    const [session_state, set_session_state] = useState();
+
+    const [is_playing, set_is_playing] = useState(true);
     const [settings, set_settings] = useState({ loading: true });
+
+    function toggle_playing() {
+        set_is_playing(!is_playing);
+    }
 
     // if settings aren't defined or session is over
     useEffect(() => {
@@ -29,7 +29,10 @@ function SessionPage(props) {
             router.push('/');
         } else {
             set_settings(settings);
-            document.body.webkitRequestFullScreen();
+
+            if(settings.full_screen) {
+                document.body.webkitRequestFullScreen();
+            }
         }
     }, []);
 
@@ -44,13 +47,13 @@ function SessionPage(props) {
             <React.Fragment>
                 <LoadingBar height={5} color='#fff' progress={30} />
                 { settings.floating_text ? <InstructionText floated='down' animated={true}>{ settings.floating_text }</InstructionText> : "" }
-                <FloatingWidget color='white' icon='pause' />
+                <FloatingWidget color='white' icon={ is_playing ? 'pause' : 'play' } onClick={toggle_playing} />
             </React.Fragment>
         )
     }
 
     return (
-        <Page photos={(!settings.loading && settings.keep_picture_background) ? props.photos : false}>
+        <Page title="Sound Healing - Session" paused={!is_playing} photos={(!settings.loading && settings.keep_picture_background) ? props.photos : false}>
             { content }
         </Page>
     )

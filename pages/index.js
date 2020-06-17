@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 
-import Page from "../components/shared/Page";
+import Page from "../components/Page";
 
-import SettingsForm from "../components/shared/FloatingSettingsForm";
-import InstructionText from "../components/shared/InstructionText";
+import SettingsForm from "../components/FloatingSettingsForm";
+import InstructionText from "../components/InstructionText";
 
 import store from "store";
 

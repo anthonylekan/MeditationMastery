@@ -13,7 +13,7 @@ function ZenBackground(props) {
     const [current_img, set_current_img] = useState(0);
 
     useEffect(() => {
-        if(props.photos) {
+        if(props.photos && !props.paused) {
             const photo_amount = props.photos.length;
             let new_img_index = (current_img + 1) % photo_amount;
 
@@ -28,7 +28,7 @@ function ZenBackground(props) {
                 clearTimeout(timer);
             }
         }
-    }, [current_img, props.photos]);
+    }, [current_img, props.photos, props.paused]);
 
     if(!props.photos) {
         return <Background color={props.color || BACKUP_COLOR}/>;
