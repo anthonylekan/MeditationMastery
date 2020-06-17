@@ -8,21 +8,23 @@ import InstructionText from "../components/shared/InstructionText";
 
 import store from "store";
 
-const PHOTO_QUERY = 'meditation';
+const PHOTO_QUERY = "meditation";
 
 function IndexPage(props) {
     const router = useRouter();
-    const session_info = { license_key: false, duration: 5, is_infinite: false, keep_picture_background: false, full_screen: false, };
+    const session_info = { license_key: false, duration: 5, is_infinite: false, keep_picture_background: false, full_screen: false, floating_text: "" };
 
     const [settings, set_settings] = useState(session_info);
 
+    console.log(settings);
+
     function update_setting(name, new_value) {
         set_settings({ ...settings, [name]: new_value });
+        store.set('settings', { time_remaining_s: settings.duration*1000, ...settings });
     }
 
     function handleKeyPress(event) {
-        if(event.keyCode === 32) {
-            store.set('session_settings', { started: false, time_remaining_s: settings.duration*1000, ...settings });
+        if(event.keyCode === 17) {
             router.push(`/session`);
         }
     }
@@ -37,7 +39,7 @@ function IndexPage(props) {
 
     return (
         <Page photos={props.photos}>
-            <InstructionText>Press Space to Start</InstructionText>
+            <InstructionText animated={true}>Press Control to Start</InstructionText>
             <SettingsForm settings={settings} update_setting={update_setting} />
         </Page>
     )

@@ -1,8 +1,7 @@
 import React from 'react';
 
-function InstructionText(props) {
-
-    return (
+const InstructionText  = (props) =>
+    (
         <React.Fragment>
             <style jsx>{`
                 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
@@ -15,7 +14,7 @@ function InstructionText(props) {
                     text-align: center;
                     margin: 0;
                     position: absolute;
-                    top: 50%;
+                    top: ${ props.floated === 'down' ? '80' : '50' }%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                     text-shadow: 2px 2px #000;
@@ -54,11 +53,9 @@ function InstructionText(props) {
 
             `}</style>
             <div className="container">
-                <h1 className="animate-flicker">{ props.children }</h1>
+                <h1 className={ `${props.animated ? "animate-flicker" : ""}` }>{ props.children }</h1>
             </div>
         </React.Fragment>
     )
-
-}
 
 export default InstructionText;

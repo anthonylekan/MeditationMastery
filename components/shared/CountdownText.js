@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Header } from 'semantic-ui-react';
+
 const ONE_SECOND_MS = 1000;
 
 /*
@@ -35,7 +37,7 @@ class CountdownText extends React.Component {
 
     render() {
         return (
-            <h1>{ this.state.time_remaining }</h1>
+            <Header size="massive" color='red' textAlign='center'>{ this.state.time_remaining }</Header>
         )
     }
 
