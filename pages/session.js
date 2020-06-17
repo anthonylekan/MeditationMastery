@@ -5,12 +5,15 @@ import Page from '../components/shared/Page';
 import InstructionText from "../components/shared/InstructionText";
 import FloatingWidget from "../components/shared/FloatingWidget";
 
+import LoadingBar from 'react-top-loading-bar';
 import store from "store";
 
 const PHOTO_QUERY = "meditation";
 
 const SESSION_STATE = {
-
+    STARTING: 'starting',
+    IN_SESSION: 'in_session',
+    OVER: 'over'
 };
 
 function SessionPage(props) {
@@ -26,10 +29,10 @@ function SessionPage(props) {
             router.push('/');
         } else {
             set_settings(settings);
+            document.body.webkitRequestFullScreen();
         }
     }, []);
 
-    console.log(settings);
     let content;
 
     if(settings.loading) {
@@ -39,14 +42,15 @@ function SessionPage(props) {
     } else {
         content = (
             <React.Fragment>
+                <LoadingBar height={5} color='#fff' progress={30} />
                 { settings.floating_text ? <InstructionText floated='down' animated={true}>{ settings.floating_text }</InstructionText> : "" }
-                <FloatingWidget color='yellow' icon='pause' />
+                <FloatingWidget color='white' icon='pause' />
             </React.Fragment>
         )
     }
 
     return (
-        <Page photos={props.photos}>
+        <Page photos={(!settings.loading && settings.keep_picture_background) ? props.photos : false}>
             { content }
         </Page>
     )
