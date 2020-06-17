@@ -1,10 +1,32 @@
 import React, { useState } from 'react';
 
-import { Form, Container, Checkbox, Button } from 'semantic-ui-react';
+import { Header, Form, Container, Divider, Input, Item, Checkbox, Button } from 'semantic-ui-react';
 import FloatingWidget from "./FloatingWidget";
 
 function FloatingSettingsForm(props) {
+    const settings = props.settings;
+    const update_setting = props.update_setting;
+
+    const [local_license_key, set_local_license_key] = useState(props.license_key);
     const [is_form_active, set_is_form_active] = useState(false);
+
+    function toggle_form() {
+        set_is_form_active(!is_form_active);
+    }
+
+    function handle_check(property) {
+        return (event, data) => {
+            update_setting(property, data.checked);
+        }
+    }
+
+    function handle_text(property) {
+        return (event) => {
+            update_setting(property, event.target.value);
+        }
+    }
+
+    const is_pro = settings.license_key;
 
     // ref: https://jetsloth.com/gravity-forms/create-a-fixed-widget-contact-form/
     return (
@@ -15,28 +37,6 @@ function FloatingSettingsForm(props) {
                     position: fixed;
                     bottom: 40px;
                     left: 40px;
-                }
-                .form-badge {
-                    background: #71C28E; /*Change this colour to change the circle*/
-                    width: 60px;
-                    height: 60px;
-                    border-radius: 100%;
-                    box-shadow: 0px 3px 3px rgba(0,0,0,0.1);
-                    transition: all 0.1s ease-in-out;
-                    transform: scale(1.0);
-                    float: right;
-                }
-                .form-badge div {
-                    position: relative;
-                    left: 50%;
-                    transform: translate(-50% ,-50%);
-                    top: 50%;
-                    border: none!important;
-                    width: 80%!important;
-                }
-                .form-badge:hover {
-                    transform: scale(1.1);
-                    cursor: pointer;
                 }
                 .form-panel {
                     width: 373px; /*Panel width*/
@@ -69,23 +69,41 @@ function FloatingSettingsForm(props) {
             <div className="form-wrap">
                 <div className={`form-panel ${is_form_active ? 'panel-active' : ''}`}>
                     <Container>
+                        <Header size="large">Meditation Mastery</Header>
                         <Form>
                             <Form.Field>
-                                <label>Session Duration</label>
-                                <input placeholder='5 minutes' type="number" />
+                                <label>Session Duration (Minutes)</label>
+                                <Input min={1} disabled={settings.is_infinite} placeholder='5 minutes' type='number' value={settings.duration} onChange={handle_text('duration')} />
                             </Form.Field>
-                            <Form.Field>
+
+                            <Divider horizontal>PRO SETTINGS</Divider>
+
+                            <Form.Field hidden={is_pro}>
+                                <label><a href="https://www.google.com">Unlock Pro by Buying a License Key ($4.99)</a></label>
+                                <Input icon={{ name: 'arrow alternate circle right outline', circular: true, link: true, onClick: (e) => { update_setting('license_key', local_license_key); } }} placeholder='Enter License Key' value={local_license_key} onChange={(e) => { set_local_license_key(e.target.value); }}/>
+                            </Form.Field>
+
+                            <Form.Field disabled={!is_pro}>
                                 <label>Infinite Session?</label>
-                                <Checkbox label={<label>Session will play as long as the window is open </label>}/>
+                                <Checkbox checked={settings.is_infinite} onChange={handle_check('is_infinite')} label={<label>Session will play as long as the window is open</label>}/>
                             </Form.Field>
-                            <Button type='submit' primary disabled>Save</Button>
-                            <Button type='cancel'>Close</Button>
+
+                            <Form.Field disabled={!is_pro}>
+                                <label>Keep Zen Background?</label>
+                                <Checkbox checked={settings.keep_picture_background} onChange={handle_check('keep_picture_background')} label={<label>Session will play with Picture Background</label>}/>
+                            </Form.Field>
+
+                            <Form.Field disabled={!is_pro}>
+                                <label>Full Screen?</label>
+                                <Checkbox checked={settings.full_screen} onChange={handle_check('full_screen')} label={<label>The Session will start in full screen. (Click ESC to exit)</label>}/>
+                            </Form.Field>
+
+                            <Button onClick={() => { toggle_form() }}>Close</Button>
+                            { is_pro && <Button basic={true} negative={true} onClick={() => { update_setting('license_key', ''); set_local_license_key(''); }} >Sign Out</Button> }
                         </Form>
                     </Container>
                 </div>
-                <div className="form-badge">
-                    <FloatingWidget style={{}} onClick={() => { set_is_form_active(!is_form_active) }}/>
-                </div>
+                <FloatingWidget onClick={() => { toggle_form() }}/>
             </div>
         </React.Fragment>
     )

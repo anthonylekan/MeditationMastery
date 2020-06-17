@@ -6,28 +6,24 @@ import Page from "../components/shared/Page";
 import SettingsForm from "../components/shared/FloatingSettingsForm";
 import InstructionText from "../components/shared/InstructionText";
 
+import store from "store";
+
 const PHOTO_QUERY = 'meditation';
 
 function IndexPage(props) {
     const router = useRouter();
-    const session_info = { duration_min: 5 };
+    const session_info = { license_key: false, duration: 5, is_infinite: false, keep_picture_background: false, full_screen: false, };
 
-    const [is_modal_open, set_is_modal_open] = useState(false);
-    const [set_settings, settings] = useState(session_info);
+    const [settings, set_settings] = useState(session_info);
 
-    function handle_setting_change(property) {
-        return function(new_value) {
-            set_settings({ [property]: new_value, ...settings });
-        }
-    }
-
-    function toggle_modal() {
-        set_is_modal_open(!is_modal_open);
+    function update_setting(name, new_value) {
+        set_settings({ ...settings, [name]: new_value });
     }
 
     function handleKeyPress(event) {
         if(event.keyCode === 32) {
-            router.push(`/session?duration_min=${session_info.duration_min}`);
+            store.set('session_settings', { started: false, time_remaining_s: settings.duration*1000, ...settings });
+            router.push(`/session`);
         }
     }
 
@@ -42,7 +38,7 @@ function IndexPage(props) {
     return (
         <Page photos={props.photos}>
             <InstructionText>Press Space to Start</InstructionText>
-            <SettingsForm />
+            <SettingsForm settings={settings} update_setting={update_setting} />
         </Page>
     )
 }
