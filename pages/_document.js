@@ -13,7 +13,7 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
-                    {/*<link rel="shortcut icon" href="/static/favicon.ico" />*/}
+                    <link rel="shortcut icon" href="/static/favicon.ico" />
                 </Head>
                 <body>
                     <Main />
