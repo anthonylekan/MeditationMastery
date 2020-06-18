@@ -20,5 +20,8 @@
     "react-top-loading-bar": "^1.2.0",
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12"
+  },
+  "devDependencies": {
+    "file-loader": "^6.0.0"
   }
 }

@@ -12,7 +12,7 @@ import store from "store";
 
 const PHOTO_QUERY = "meditation";
 
-const START_OFFSET = 55*1000;
+const START_OFFSET = 60*1000;
 const TICK_INTERVAL = 500;
 
 function SessionPage(props) {
@@ -30,9 +30,12 @@ function SessionPage(props) {
 
     // run every .5 s
     function on_tick() {
+        if(!is_playing) {
+            return;
+        }
+
+        set_time_remaining(time_remaining*2);
         console.log(time_remaining);
-        console.log("time remaining!");
-        set_time_remaining(time_remaining-500);
     }
 
     // if settings aren't defined or session is over
@@ -42,18 +45,19 @@ function SessionPage(props) {
         if(!settings || (settings.time_remaining_s <= 0 && !settings.is_infinite)) {
             router.push('/');
         } else {
+            const interval_id = setInterval(on_tick, TICK_INTERVAL);
+
             set_settings(settings);
             set_time_remaining(settings.time_remaining_s);
+            set_is_playing(true);
 
             if(settings.full_screen) {
-                document.body.webkitRequestFullScreen();
+                document.documentElement.webkitRequestFullScreen();
             }
-
-            const interval_id = setInterval(on_tick, TICK_INTERVAL);
 
             return () => {
                 clearInterval(interval_id);
-            }
+            };
         }
     }, []);
 
@@ -72,7 +76,7 @@ function SessionPage(props) {
                 { settings.floating_text ? <InstructionText floated='down' animated={true}>{ settings.floating_text }</InstructionText> : "" }
 
                 <FloatingWidget color='grey' icon={ is_playing ? 'pause' : 'play' } onClick={toggle_playing} />
-                <Sound autoLoad={true} volume={100} url="/static/sounds/meditation1.mp3" playStatus={is_playing ? Sound.status.PLAYING : Sound.status.PAUSED} playFromPosition={START_OFFSET}/>
+                <Sound url="/static/sounds/meditation1.mp3" playbackRate={1.05} autoLoad={true} volume={100} playStatus={is_playing ? Sound.status.PLAYING : Sound.status.PAUSED} playFromPosition={START_OFFSET}/>
             </React.Fragment>
         )
     }

@@ -18,12 +18,17 @@ function IndexPage(props) {
 
     function update_setting(name, new_value) {
         set_settings({ ...settings, [name]: new_value });
-        store.set('settings', { time_remaining_s: settings.duration*1000, ...settings });
+        store.set('settings', settings);
+    }
+
+    function start() {
+        store.set('settings', settings);
+        router.push('/session');
     }
 
     function handleKeyPress(event) {
         if(event.keyCode === 17) {
-            router.push(`/session`);
+            start();
         }
     }
 
@@ -38,7 +43,7 @@ function IndexPage(props) {
     return (
         <Page photos={props.photos}>
             <InstructionText animated={true}>Press Control to Start</InstructionText>
-            <SettingsForm settings={settings} update_setting={update_setting} />
+            <SettingsForm start={start} settings={settings} update_setting={update_setting} />
         </Page>
     )
 }

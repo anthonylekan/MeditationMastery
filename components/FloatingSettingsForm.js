@@ -6,6 +6,7 @@ import FloatingWidget from "./FloatingWidget";
 function FloatingSettingsForm(props) {
     const settings = props.settings;
     const update_setting = props.update_setting;
+    const start = props.start;
 
     const [local_license_key, set_local_license_key] = useState(props.license_key);
     const [is_form_active, set_is_form_active] = useState(false);
@@ -104,6 +105,7 @@ function FloatingSettingsForm(props) {
                             </Form.Field>
 
                             <Button onClick={() => { toggle_form() }}>Close</Button>
+                            <Button positive={true} basic={true} onClick={() => { start() }}>Start</Button>
                             { is_pro && <Button basic={true} negative={true} onClick={() => { update_setting('license_key', ''); set_local_license_key(''); }} >Sign Out</Button> }
                         </Form>
                     </Container>
