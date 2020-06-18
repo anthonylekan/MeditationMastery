@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "Anthony Lekan",
-  "license": "ISC",
+  "license": "All Rights Reserved",
   "dependencies": {
     "dotenv": "^8.2.0",
     "next": "^9.4.4",
