@@ -16,8 +16,6 @@ function IndexPage(props) {
 
     const [settings, set_settings] = useState(session_info);
 
-    console.log(settings);
-
     function update_setting(name, new_value) {
         set_settings({ ...settings, [name]: new_value });
         store.set('settings', { time_remaining_s: settings.duration*1000, ...settings });

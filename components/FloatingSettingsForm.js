@@ -79,7 +79,7 @@ function FloatingSettingsForm(props) {
                             <Divider horizontal>PRO SETTINGS</Divider>
 
                             <Form.Field hidden={is_pro}>
-                                <label><a href="https://www.google.com">Unlock Pro by Buying a License Key ($4.99)</a></label>
+                                <label><a href="https://www.google.com">Unlock Pro by Buying a License Key</a></label>
                                 <Input icon={{ name: 'arrow alternate circle right outline', circular: true, link: true, onClick: (e) => { update_setting('license_key', local_license_key); } }} placeholder='Enter License Key' onChange={(e) => { set_local_license_key(e.target.value); }}/>
                             </Form.Field>
 

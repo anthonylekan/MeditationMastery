@@ -6,19 +6,33 @@ import InstructionText from "../components/InstructionText";
 import FloatingWidget from "../components/FloatingWidget";
 
 import LoadingBar from 'react-top-loading-bar';
+
+import Sound from 'react-sound';
 import store from "store";
 
 const PHOTO_QUERY = "meditation";
 
+const START_OFFSET = 55*1000;
+const TICK_INTERVAL = 500;
 
 function SessionPage(props) {
     const router = useRouter();
 
-    const [is_playing, set_is_playing] = useState(true);
+    const [is_playing, set_is_playing] = useState(false);
+    // time remaining in seconds
+    const [time_remaining, set_time_remaining] = useState();
+
     const [settings, set_settings] = useState({ loading: true });
 
     function toggle_playing() {
         set_is_playing(!is_playing);
+    }
+
+    // run every .5 s
+    function on_tick() {
+        console.log(time_remaining);
+        console.log("time remaining!");
+        set_time_remaining(time_remaining-500);
     }
 
     // if settings aren't defined or session is over
@@ -29,14 +43,22 @@ function SessionPage(props) {
             router.push('/');
         } else {
             set_settings(settings);
+            set_time_remaining(settings.time_remaining_s);
 
             if(settings.full_screen) {
                 document.body.webkitRequestFullScreen();
+            }
+
+            const interval_id = setInterval(on_tick, TICK_INTERVAL);
+
+            return () => {
+                clearInterval(interval_id);
             }
         }
     }, []);
 
     let content;
+    const progress = (settings.duration*1000-time_remaining)/(settings.duration*1000)*100;
 
     if(settings.loading) {
         content = (
@@ -45,9 +67,12 @@ function SessionPage(props) {
     } else {
         content = (
             <React.Fragment>
-                <LoadingBar height={5} color='#fff' progress={30} />
+                <LoadingBar height={5} color='#fff' progress={progress*100} />
+
                 { settings.floating_text ? <InstructionText floated='down' animated={true}>{ settings.floating_text }</InstructionText> : "" }
-                <FloatingWidget color='white' icon={ is_playing ? 'pause' : 'play' } onClick={toggle_playing} />
+
+                <FloatingWidget color='grey' icon={ is_playing ? 'pause' : 'play' } onClick={toggle_playing} />
+                <Sound autoLoad={true} volume={100} url="/static/sounds/meditation1.mp3" playStatus={is_playing ? Sound.status.PLAYING : Sound.status.PAUSED} playFromPosition={START_OFFSET}/>
             </React.Fragment>
         )
     }
