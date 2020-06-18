@@ -33,6 +33,12 @@ function IndexPage(props) {
     }
 
     useEffect(() => {
+        // const saved_settings = store.get('settings');
+        //
+        // if(saved_settings) {
+        //     set_settings('settings', { ...settings, ...saved_settings  });
+        // }
+
         window.addEventListener('keydown', handleKeyPress);
 
         return () => {
